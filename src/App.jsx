@@ -5,10 +5,8 @@ import Contact from "./pages/Contact";
 import About from "./pages/About";
 import Login from "./pages/Login";
 import SignUp from "./pages/SignUp";
-import Single from "./pages/Single";
-import Double from "./pages/Double";
-import Vip from "./pages/Vip";
 import PrivateRoute from "./privateRoute/PrivateRoute";
+import Booking from "./pages/Booking";
 
 const router = createBrowserRouter([
 {
@@ -17,7 +15,8 @@ const router = createBrowserRouter([
         children:[
             {
                 path:'/',
-                element: <Home></Home>
+                element: <Home></Home>,
+                loader: ({params}) => fetch(`http://localhost:3000/booking/${params.id}`)
             },
             {
                 path:'/contact',
@@ -36,24 +35,17 @@ const router = createBrowserRouter([
                 element: <SignUp></SignUp>
             },
             {
-              path:'/booking/1',
+              path:'/details/:id',
               element: <PrivateRoute>
-                <Single></Single>
-              </PrivateRoute>
-            },
-            {
-              path:'/booking/2',
-              element: <PrivateRoute>
-                <Double></Double>
-              </PrivateRoute>
-            },
-            {
-              path:'/booking/3',
-              element: <PrivateRoute>
-                <Vip></Vip>
-              </PrivateRoute>
+                <Booking></Booking>,
+              </PrivateRoute>,
+              loader: ({params}) => fetch(`http://localhost:3000/details/${params.id}`)
             }
-            
+            // {
+            //   path:'/details/:id',
+            //   element: <Details></Details>,
+            //   loader: ({params}) => fetch(`http://localhost:3000/details/${params.id}`)
+            // }
         ]
 }
 ]);
